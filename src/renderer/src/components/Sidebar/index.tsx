@@ -8,24 +8,32 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@radix-ui/react-collapsible";
+import { useQuery } from "@tanstack/react-query";
 
 export function Sidebar() {
   const isMacOS = process.platform === "darwin";
 
-  window.api.fetchDocuments('testeeee').then(console.log)
+  const { data } = useQuery({
+    queryKey: ["documents"],
+    queryFn: async () => {
+      const response = await window.api.fetchDocuments();
+
+      return response;
+    },
+  });
 
   return (
     <CollapsibleContent className="bg-rotion-800 shrink-0 border-r border-rotion-600 h-screen relative group data-[state=open]:animate-slideIn data-[state=closed]:animate-slideOut overflow-hidden">
       <CollapsibleTrigger
-          className={clsx(
-            "absolute h-5 w-5 right-4 text-rotion-200 hover:text-rotion-50 inline-flex items-center justify-center",
-            {
-              "top-4.5": isMacOS,
-              "top-6": !isMacOS,
-            }
-          )}
-        >
-          <CaretDoubleLeft className="h-4 w-4" />
+        className={clsx(
+          "absolute h-5 w-5 right-4 text-rotion-200 hover:text-rotion-50 inline-flex items-center justify-center",
+          {
+            "top-4.5": isMacOS,
+            "top-6": !isMacOS,
+          }
+        )}
+      >
+        <CaretDoubleLeft className="h-4 w-4" />
       </CollapsibleTrigger>
 
       <div
@@ -50,10 +58,9 @@ export function Sidebar() {
           <Navigation.Section>
             <Navigation.SectionTitle>Workspace</Navigation.SectionTitle>
             <Navigation.SectionContent>
-              <Navigation.Link>Untitled</Navigation.Link>
-              <Navigation.Link>Discover</Navigation.Link>
-              <Navigation.Link>Ignite</Navigation.Link>
-              <Navigation.Link>Rocketseat</Navigation.Link>
+              {data?.map(document => {
+                return <Navigation.Link key={document.id}>{document.title}</Navigation.Link>
+              })}
             </Navigation.SectionContent>
           </Navigation.Section>
         </Navigation.Root>
