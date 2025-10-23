@@ -4,7 +4,7 @@
 @theme {
   --color-primary: #3b82f6; /* azul-500 */
   --color-secondary: #f59e0b; /* amber-500 */
-  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-sans: "Inter", system-ui, sans-serif;
 
   --color-rotion-50: #ebeaed;
   --color-rotion-100: #c1bfc7;
@@ -16,6 +16,10 @@
   --color-rotion-700: #272235;
   --color-rotion-800: #1e1a29;
   --color-rotion-900: #17141f;
+
+    
+  --animate-slideIn: slideIn 0.25s;
+  --animate-slideOut: slideOut 0.25s;
 }
 
 /* ===========================================================
@@ -27,10 +31,15 @@
     background-color: var(--color-bg, #17141f);
     color: var(--color-text, #c1bfc7);
 
-    overflow: hidden
+    overflow: hidden;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-weight: 600;
     color: var(--color-rotion-100, #f9fafb);
   }
@@ -40,7 +49,6 @@
    🧱 Componentes customizados
    =========================================================== */
 @layer components {
-
 }
 
 /* ===========================================================
@@ -53,5 +61,33 @@
 
   .region-no-drag {
     -webkit-app-region: no-drag;
+  }
+
+  .slideIn {
+    animation: slideIn 0.25s;
+  }
+
+  .slideOut {
+    animation: slideOut 0.25s;
+  }
+
+  @keyframes slideIn {
+    from {
+      width: 0;
+    }
+
+    to {
+      width: var(--radix-collapsible-content-width);
+    }
+  }
+
+  @keyframes slideOut {
+    from {
+      width: var(--radix-collapsible-content-width);
+    }
+
+    to {
+      width: 0;
+    }
   }
 }

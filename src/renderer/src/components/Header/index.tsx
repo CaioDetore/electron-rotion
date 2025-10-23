@@ -1,31 +1,37 @@
-import clsx from 'clsx'
-import { Code, CaretDoubleRight, TrashSimple } from 'phosphor-react'
-import * as Breadcrumbs from './Breadcrumbs'
+import clsx from "clsx";
+import { Code, CaretDoubleRight, TrashSimple } from "phosphor-react";
+import * as Breadcrumbs from "./Breadcrumbs";
+import { CollapsibleTrigger } from "@radix-ui/react-collapsible";
 
-export function Header() {
-  const isMacOS = process.platform === 'darwin'
-  const isSidebarOpen = true
+interface Props {
+  isCollapsibleOpen: boolean
+}
+export function Header({isCollapsibleOpen}: Props) {
+  const isMacOS = process.platform === "darwin";
+  const isSidebarOpen = isCollapsibleOpen;
 
   return (
     <div
       id="header"
       className={clsx(
-        'border-b border-rotion-600 py-4.5 px-6 flex items-center gap-4 leading-tight transition-all duration-250 region-drag',
+        "border-b border-rotion-600 py-4.5 px-6 flex items-center gap-4 leading-tight transition-all duration-250 region-drag",
         {
-          'pl-24': !isSidebarOpen && isMacOS,
-          'w-screen': !isSidebarOpen,
-          'w-[calc(100vw-240px)]': isSidebarOpen,
-        },
+          "pl-24": !isSidebarOpen && isMacOS,
+          "w-screen": !isSidebarOpen,
+          "w-[calc(100vw-240px)]": isSidebarOpen,
+        }
       )}
     >
-      <button
-        className={clsx('h-5 w-5 text-rotion-200 hover:text-rotion-50', {
-          hidden: isSidebarOpen,
-          block: !isSidebarOpen,
-        })}
-      >
-        <CaretDoubleRight className="h-4 w-4" />
-      </button>
+      <CollapsibleTrigger>
+        <button
+          className={clsx("h-5 w-5 text-rotion-200 hover:text-rotion-50", {
+            hidden: isSidebarOpen,
+            block: !isSidebarOpen,
+          })}
+        >
+          <CaretDoubleRight className="h-4 w-4" />
+        </button>
+      </CollapsibleTrigger>
 
       <>
         <Breadcrumbs.Root>
@@ -49,5 +55,5 @@ export function Header() {
         </div>
       </>
     </div>
-  )
+  );
 }
