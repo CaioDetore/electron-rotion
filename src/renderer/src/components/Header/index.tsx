@@ -4,9 +4,9 @@ import * as Breadcrumbs from "./Breadcrumbs";
 import { CollapsibleTrigger } from "@radix-ui/react-collapsible";
 
 interface Props {
-  isCollapsibleOpen: boolean
+  isCollapsibleOpen: boolean;
 }
-export function Header({isCollapsibleOpen}: Props) {
+export function Header({ isCollapsibleOpen }: Props) {
   const isMacOS = process.platform === "darwin";
   const isSidebarOpen = isCollapsibleOpen;
 
@@ -22,15 +22,13 @@ export function Header({isCollapsibleOpen}: Props) {
         }
       )}
     >
-      <CollapsibleTrigger>
-        <button
-          className={clsx("h-5 w-5 text-rotion-200 hover:text-rotion-50", {
-            hidden: isSidebarOpen,
-            block: !isSidebarOpen,
-          })}
-        >
-          <CaretDoubleRight className="h-4 w-4" />
-        </button>
+      <CollapsibleTrigger
+        className={clsx("h-5 w-5 text-rotion-200 hover:text-rotion-50", {
+          hidden: isSidebarOpen,
+          block: !isSidebarOpen,
+        })}
+      >
+        <CaretDoubleRight className="h-4 w-4" />
       </CollapsibleTrigger>
 
       <>

@@ -12,10 +12,11 @@ import {
 export function Sidebar() {
   const isMacOS = process.platform === "darwin";
 
+  window.api.fetchDocuments('testeeee').then(console.log)
+
   return (
     <CollapsibleContent className="bg-rotion-800 shrink-0 border-r border-rotion-600 h-screen relative group data-[state=open]:animate-slideIn data-[state=closed]:animate-slideOut overflow-hidden">
-      <CollapsibleTrigger>
-        <button
+      <CollapsibleTrigger
           className={clsx(
             "absolute h-5 w-5 right-4 text-rotion-200 hover:text-rotion-50 inline-flex items-center justify-center",
             {
@@ -25,7 +26,6 @@ export function Sidebar() {
           )}
         >
           <CaretDoubleLeft className="h-4 w-4" />
-        </button>
       </CollapsibleTrigger>
 
       <div

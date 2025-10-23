@@ -5,6 +5,8 @@ import { electronApp, optimizer, is } from "@electron-toolkit/utils";
 import icon from "../../resources/icon.png";
 import { registerRoute } from "../lib/electron-router-dom";
 
+import './ipc'
+
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
