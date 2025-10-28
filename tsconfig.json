@@ -25,6 +25,7 @@
         "./*"
       ],
       "@*": ["./src/*"],
+      "@shared/*": ["src/shared/*"]
     }
   },
   "include": [
