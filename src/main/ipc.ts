@@ -39,7 +39,7 @@ ipcMain.handle(
 
     const document: Document = {
       id,
-      title: "Untitle",
+      title: "Untitled",
       content: "",
     };
 
