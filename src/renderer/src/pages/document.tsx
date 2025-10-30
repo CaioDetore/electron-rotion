@@ -1,13 +1,15 @@
 import { useParams } from "react-router-dom";
-import { Editor } from "../components/editor";
+import { Editor, OnContentUpdatedProps } from "../components/editor";
 import { ToC } from "../components/ToC";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useMemo } from "react";
+import { Document as IPCDocument } from "~/src/shared/types/ipc";
 
 export function Document() {
   const { id } = useParams<{ id: string }>();
+  const queryClient = useQueryClient();
 
-  const {data, isFetching} = useQuery({
+  const { data, isFetching } = useQuery({
     queryKey: ["document", id],
     queryFn: async () => {
       const response = await window.api.fetchDocument({ id: id! });
@@ -16,11 +18,45 @@ export function Document() {
     },
   });
 
+  const { mutate: saveDocument } = useMutation({
+    mutationFn: async ({ title, content }: OnContentUpdatedProps) => {
+      await window.api.saveDocument({
+        id: id!,
+        title,
+        content,
+      });
+    },
+    onSuccess: (_, { content, title }) => {
+      queryClient.setQueryData<IPCDocument[]>(["documents"], (documents) => {
+        return documents?.map((document) => {
+          if (document.id === id) {
+            return {
+              ...document,
+              title,
+            };
+          }
+
+          return document
+        });
+      });
+    },
+  });
+
   const initialContent = useMemo(() => {
     if (data) {
-      return `<h1>${data.title}</h1>${data.content ?? '<p></p>'}`
+      return `<h1>${data.title}</h1>${data.content ?? "<p></p>"}`;
     }
-  } , [data])
+  }, [data]);
+
+  function handleEditorContentUpdated({
+    title,
+    content,
+  }: OnContentUpdatedProps) {
+    saveDocument({
+      content,
+      title,
+    });
+  }
 
   return (
     <main className="flex-1 flex py-12 px-10 gap-8">
@@ -39,7 +75,10 @@ export function Document() {
 
       <section className="flex-1 flex flex-col items-center">
         {!isFetching && !!initialContent && (
-          <Editor content={initialContent} />
+          <Editor
+            content={initialContent}
+            onContentUpdated={handleEditorContentUpdated}
+          />
         )}
       </section>
     </main>
