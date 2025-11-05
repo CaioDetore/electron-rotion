@@ -8,6 +8,7 @@ import { registerRoute } from "../lib/electron-router-dom";
 import './ipc'
 import './store'
 import { createTray } from "./tray";
+import { createShortcuts } from "./shortcur";
 
 function createWindow(): void {
   // Create the browser window.
@@ -30,6 +31,7 @@ function createWindow(): void {
   });
 
   createTray(mainWindow)
+  createShortcuts(mainWindow)
 
   registerRoute({
     id: "main",
